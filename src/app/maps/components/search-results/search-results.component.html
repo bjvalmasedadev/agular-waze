@@ -1,6 +1,7 @@
 <div
   class="flex items-center p-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
   role="alert"
+  *ngIf="isLoadingPlaces"
 >
   <svg
     aria-hidden="true"
@@ -24,12 +25,18 @@
 </div>
 
 <div
+  *ngIf="places.length > 0"
   class="w-full p-4 border bg-gray-800 rounded-lg shadow sm:p-8 border-gray-700"
 >
   <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-    <li class="py-3 sm:py-4 cursor-pointer">
+    <li
+      class="py-3 sm:py-4 cursor-pointer"
+      *ngFor="let place of places"
+      (click)="flyTo(place)"
+      [ngClass]="place.id === selectedId ? 'text-sky-600' : 'text-white'"
+    >
       <div class="flex items-center space-x-4">
-        <div class="flex-shrink-0 text-white">
+        <div class="flex-shrink-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -51,12 +58,16 @@
           </svg>
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-            Place
+          <p class="text-sm font-medium">
+            {{ place.text }}
           </p>
-          <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores
-            sunt quod doloribus ea voluptas
+          <p
+            class="text-sm truncate"
+            [ngClass]="
+              place.id === selectedId ? 'text-sky-200' : 'text-gray-500'
+            "
+          >
+            {{ place.place_name }}
           </p>
         </div>
         <button
