@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { PlacesApiClient } from '../api/placeApiClient';
 import { Feature, PlacesResponse } from '../interfaces/interface';
+import { MapService } from './map.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,7 @@ import { Feature, PlacesResponse } from '../interfaces/interface';
 export class PlacesService {
   public userLocation?: [number, number];
   private placesHttp = inject(PlacesApiClient);
+  private mapService = inject(MapService);
 
   public isLoadingPlaces: boolean = false;
   public places: Feature[] = [];
@@ -38,7 +40,8 @@ export class PlacesService {
   public getPlacesByQuery(query: string = '') {
     // todo query empty
     this.isLoadingPlaces = true;
-    if (!this.userLocation) throw Error("User location doesn't exist");
+    if (!this.userLocation) throw new Error("User location doesn't exist");
+
     this.placesHttp
       .get<PlacesResponse>(`/${query}.json?`, {
         params: {
@@ -46,10 +49,14 @@ export class PlacesService {
         },
       })
       .subscribe((res) => {
-        console.log(res.features);
-
         this.isLoadingPlaces = false;
         this.places = res.features;
+
+        this.mapService.createMarkerFromPlaces(this.places, this.userLocation!);
       });
+  }
+
+  deletePlaces() {
+    this.places = [];
   }
 }

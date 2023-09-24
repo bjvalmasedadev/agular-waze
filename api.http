@@ -1,2 +1,6 @@
-## Search
+## Search place by name
 GET https://api.mapbox.com/geocoding/v5/mapbox.places/Cluster.json?limit=6&proximity=55.1452575%2C25.0754773&access_token=pk.eyJ1IjoiYmp2YWxtYXNlZGEiLCJhIjoiY2xrM3EwZ29zMHcwMjNmcnk2MXBpbW5qciJ9.xLMDIzhTIso_5g_hJlwwRQ
+
+###
+## Navigation
+GET https://api.mapbox.com/directions/v5/mapbox/driving/-74.076076%2C40.843313%3B-74.04411%2C40.829781?alternatives=false&geometries=geojson&language=en&overview=full&steps=true&access_token=pk.eyJ1IjoiYmp2YWxtYXNlZGEiLCJhIjoiY2xrM3EwZ29zMHcwMjNmcnk2MXBpbW5qciJ9.xLMDIzhTIso_5g_hJlwwRQ

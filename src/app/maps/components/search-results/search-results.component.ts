@@ -25,4 +25,14 @@ export class SearchResultsComponent {
     const [lng, lat] = place.center;
     this.mapService.flyTo([lng, lat]);
   }
+
+  public getDirections(place: Feature) {
+    if (!this.placesService.userLocation)
+      throw new Error("User location doesn't exist");
+
+    this.placesService.deletePlaces();
+    const start = this.placesService.userLocation;
+    const end = place.center as [number, number];
+    this.mapService.getRoutesBetweenTwoPoints(start, end);
+  }
 }
